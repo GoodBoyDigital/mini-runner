@@ -44,9 +44,11 @@ Cons:
 - Not quite as flexible. All listeners / items in the runner must have the correct function name specified within the runners constructor.
 
 # When to use:
-In practive I have found the Runner increadibly useful and so thought it would be nice to share with the world. It currently forms the backbone of the messaging system in our game engine.
+In practive I have found the Runner increadibly useful and so thought it would be nice to share with the world. It currently forms the backbone of the messaging system in our game engine. ITs working out great for things like update events collison events etc. 
 
-If you are calling you signals a lot to a lot of things, then I would considor using this alternative. For most cases, this performace boost is not really important enough to switch from your current fave. 
+Great to use if you are say looping through and array and calling the same function on each object. The reulting cod eis cleaner than a loop whilst still keeping the performance as fast as possible.
+
+So yeah, if you are dispatching signals/events to a lot of listeners often (like everyframe often), then I would considor using this alternative. For most cases, this performace boost is not really important enough to switch from your current fave. 
 
 Think of this as a nice alternative for when speed really counts!
 
