@@ -29,8 +29,9 @@ updateRunner.add(gameItem3);
 updateRunner.emit();
 ```
 # Features:
+- Easy to use familiar API.
 - Under the hood it dynamically creates a looping function that is highly optimised. 
-- Avoids using 'call' and runs the function directly (which is faster!)
+- Avoids using 'call' and runs the function directly (which is faster!).
 - You can pass parameters when emitting.
 
 Pros:
@@ -43,7 +44,7 @@ Cons:
 - Not quite as flexible. All listeners / items in the runner must have the correct function name specified within the runners constructor.
 
 # When to use:
-In practive I have found the Runner increadibly useful and so thought it would be nice to share with the world. It forms the backbone of the messaging system in our game engine.
+In practive I have found the Runner increadibly useful and so thought it would be nice to share with the world. It currently forms the backbone of the messaging system in our game engine.
 
 If you are calling you signals a lot to a lot of things, then I would considor using this alternative. For most cases, this performace boost is not really important enough to switch from your current fave. 
 
