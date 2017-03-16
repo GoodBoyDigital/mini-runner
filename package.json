@@ -26,5 +26,8 @@
   "bugs": {
     "url": "https://github.com/GoodBoyDigital/Runner/issues"
   },
-  "homepage": "https://github.com/GoodBoyDigital/Runner#readme"
+  "homepage": "https://github.com/GoodBoyDigital/Runner#readme",
+  "devDependencies": {
+    "uglify-js": "^2.8.13"
+  }
 }
