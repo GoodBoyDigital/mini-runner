@@ -1,15 +1,4 @@
 
-//custom object that dispatch a `started` signal
-var myObject = {
-  started : new signals.Signal()
-};
-function onStarted(param1, param2){
-  alert(param1 + param2);
-}
-myObject.started.add(onStarted); //add listener
-myObject.started.dispatch('foo', 'bar'); //dispatch signal passing custom parameters
-myObject.started.remove(onStarted); //remove a single listener
-
 /**
  * A Runner is a highly performant and simple alternative to signals. Best used in situations
  * where events are dispatched to many objects at high frequency (say every frame!)
