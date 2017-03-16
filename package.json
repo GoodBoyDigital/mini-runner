@@ -2,13 +2,13 @@
   "name": "mini-runner",
   "version": "1.0.0",
   "description": "A simple alternative to events and signals with an emphasis on performance.",
-  "main": "MiniRunner.min.js",
+  "main": "mini-runner.min.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/GoodBoyDigital/MiniRunner.git"
+    "url": "git+https://github.com/GoodBoyDigital/mini-runner.git"
   },
   "keywords": [
     "mini-runner",
@@ -25,9 +25,9 @@
   "author": "Mathew Groves",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/GoodBoyDigital/MiniRunner/issues"
+    "url": "https://github.com/GoodBoyDigital/mini-runner/issues"
   },
-  "homepage": "https://github.com/GoodBoyDigital/MiniRunner#readme",
+  "homepage": "https://github.com/GoodBoyDigital/mini-runner#readme",
   "devDependencies": {
     "uglify-js": "^2.8.13"
   }

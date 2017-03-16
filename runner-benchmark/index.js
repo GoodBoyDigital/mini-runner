@@ -1,5 +1,5 @@
 var Benchmark = require('benchmark');
-var Runner = require('../runner');
+var Runner = require('../mini-runner');
 var Signal = require('signals');
 var MiniSignal = require('mini-signals');
 var EventEmitter = require('EventEmitter3');
