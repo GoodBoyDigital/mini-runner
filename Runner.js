@@ -38,9 +38,10 @@
  * myGame.update.emit(time);
  * ```
  *
- * @param {string} the function name that will be executed on the listeners added to this runner.
+ * @param {string} name the function name that will be executed on the listeners added to this runner.
+ * @param {number} argsLength optional number of parameters that the listeners will have passed to them when runner is dispatched.
  */
-var Runner = function(name)
+var Runner = function(name, argsLength)
 {
     this.items = [];
     this._name = name;
@@ -49,7 +50,7 @@ var Runner = function(name)
      * Dispatch/Broadcast Runner to all listeners added to the queue.
      * @params {...params} params optional parameters to pass to each listener
      */
-    this.dispatch = this.emit = this.run = Runner.generateRun(name, argsLength);
+    this.dispatch = this.emit = this.run = Runner.generateRun(name, argsLength||0);
 }
 
 var p = Runner.prototype;
@@ -85,7 +86,7 @@ p.add = function(item)
  */
 p.remove = function(item)
 {
-    const index = this.items.indexOf(item);
+    var index = this.items.indexOf(item);
 
     if(index !== -1)
     {
@@ -123,19 +124,19 @@ Object.defineProperty(p, 'empty', {
     }
 });
 
-Runner.generateRun(name, argsLength)
+Runner.generateRun = function(name, argsLength)
 {
-    const key = name + '|' + argsLength;
+    var key = name + '|' + argsLength;
 
-    let func = Runner.hash[key];
+    var func = Runner.hash[key];
 
     if(!func)
     {
         if(argsLength > 0)
         {
-            let args = 'arg0';
+            var args = 'arg0';
 
-            for(let i = 1; i < argsLength; i++)
+            for(var i = 1; i < argsLength; i++)
             {
                 args += ',arg'+i;
             }
@@ -155,3 +156,5 @@ Runner.generateRun(name, argsLength)
 
 
 Runner.hash = {};
+
+module.exports = Runner;
