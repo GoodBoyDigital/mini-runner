@@ -3,6 +3,8 @@ A simple alternative to events and signals with an emphasis on performance.
 
 Can be used as an alternative to events / signals. 
 
+[![Build Status](https://travis-ci.org/GoodBoyDigital/mini-runner.svg?branch=master)](https://travis-ci.org/GoodBoyDigital/mini-runner)
+
 # How to use:
 ```
 var onComplete = new MiniRunner('onComplete');
