@@ -1,6 +1,5 @@
 # Runner
-A simple alternative to events, signals and callbacks with an emphasis on performance.
-Its like if a simple signals!
+A simple alternative to events and signals with an emphasis on performance.
 
 Can be used as an alternative to events / signals. 
 
