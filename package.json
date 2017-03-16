@@ -1,6 +1,6 @@
 {
   "name": "mini-runner",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple alternative to events and signals with an emphasis on performance.",
   "main": "mini-runner.min.js",
   "scripts": {
