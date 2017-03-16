@@ -1,11 +1,11 @@
-# Runner
+# mini-runner
 A simple alternative to events and signals with an emphasis on performance.
 
 Can be used as an alternative to events / signals. 
 
 # How to use:
 ```
-var onComplete = new Runner('onComplete');
+var onComplete = new MiniRunner('onComplete');
 
 //listenerObject needs to have a 'onComplete' function
 onComplete.add(listenerObject);
@@ -17,7 +17,7 @@ onComplete.emit(data);
 Can be used to execute a funcition on many objects. Handy for games. If you need to update you game elements each frame:
 
 ```
-var updateRunner = new Runner('update');
+var updateRunner = new MiniRunner('update');
 
 // gameItems should all have a 'update' function
 updateRunner.add(gameItem1);
