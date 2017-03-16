@@ -4,7 +4,7 @@
   "description": "A simple alternative to events and signals with an emphasis on performance.",
   "main": "mini-runner.min.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jshint --reporter=node_modules/jshint-stylish mini-runner.js || true"
   },
   "repository": {
     "type": "git",
@@ -29,6 +29,8 @@
   },
   "homepage": "https://github.com/GoodBoyDigital/mini-runner#readme",
   "devDependencies": {
+    "jshint": "^2.9.4",
+    "jshint-stylish": "^2.2.1",
     "uglify-js": "^2.8.13"
   }
 }

@@ -51,7 +51,7 @@ var MiniRunner = function(name, argsLength)
      * @params {...params} params optional parameters to pass to each listener
      */
     this.dispatch = this.emit = this.run = MiniRunner.generateRun(name, argsLength||0);
-}
+};
 
 var p = MiniRunner.prototype;
 
@@ -78,7 +78,7 @@ p.add = function(item)
 
     this.remove(item);
     this.items.push(item);
-}
+};
 
 /**
  * Remove a single listener from the dispatch queue.
@@ -92,7 +92,7 @@ p.remove = function(item)
     {
         this.items.splice(index, 1);
     }
-}
+};
 
 /**
  * Check to see if the listener is already in the MiniRunner
@@ -101,7 +101,7 @@ p.remove = function(item)
 p.contains = function(item)
 {
     return this.items.indexOf(item) !== -1;
-}
+};
 
 /**
  * Remove all listeners from the MiniRunner
@@ -109,7 +109,7 @@ p.contains = function(item)
 p.removeAll = function()
 {
     this.items.length = 0;
-}
+};
 
 /**
  * true if there are no this MiniRunner contains no listeners
@@ -141,10 +141,12 @@ MiniRunner.generateRun = function(name, argsLength)
                 args += ',arg'+i;
             }
 
+            /*jslint evil: true */
             func = new Function(args,  'var items = this.items; for(var i=0;i<items.length;i++){ items[i].'+name+'('+args+'); }');
         }
         else
         {
+            /*jslint evil: true */
             func = new Function('var items = this.items; for(var i=0;i<items.length;i++){ items[i].'+name+'(); }');
         }
 
@@ -152,7 +154,7 @@ MiniRunner.generateRun = function(name, argsLength)
     }
 
     return func;
-}
+};
 
 
 MiniRunner.hash = {};
