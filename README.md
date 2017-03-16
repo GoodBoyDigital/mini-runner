@@ -6,7 +6,7 @@ Can be used as an alternative to events / signals.
 [![Build Status](https://travis-ci.org/GoodBoyDigital/mini-runner.svg?branch=master)](https://travis-ci.org/GoodBoyDigital/mini-runner)
 
 # How to use:
-```
+```js
 var onComplete = new MiniRunner('onComplete');
 
 //listenerObject needs to have a 'onComplete' function
@@ -18,7 +18,7 @@ onComplete.emit(data);
 
 Can be used to execute a funcition on many objects. Handy for games. If you need to update you game elements each frame:
 
-```
+```js
 var updateRunner = new MiniRunner('update');
 
 // gameItems should all have a 'update' function
