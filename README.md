@@ -1,4 +1,4 @@
-# Runner
+# mini-runner
 A simple alternative to events and signals with an emphasis on performance.
 
 Can be used as an alternative to events / signals. 
