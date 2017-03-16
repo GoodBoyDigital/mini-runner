@@ -4,13 +4,15 @@
   "description": "A simple alternative to events and signals with an emphasis on performance.",
   "main": "mini-runner.min.js",
   "scripts": {
-    "test": "jshint --reporter=node_modules/jshint-stylish mini-runner.js || true"
+    "test": "jshint --reporter=node_modules/jshint-stylish mini-runner.js",
+    "prepublish": "npm test && npm run build",
+    "build": "uglifyjs -cm -o mini-runner.min.js mini-runner.js"
   },
   "files": [
-  "README.md",
-  "mini-runner.js",
-  "mini-runner.min.js",
-  "LICENSE"
+    "README.md",
+    "mini-runner.js",
+    "mini-runner.min.js",
+    "LICENSE"
   ],
   "repository": {
     "type": "git",
