@@ -61,5 +61,4 @@ Think of this as a nice alternative for when speed really counts!
 
 
 # Benchmarks
-
-coming soon..
+![benchmark results](https://photos-6.dropbox.com/t/2/AAAHAFu3cvFlEYVMrklzp-yaaR8OnEZpbSDFJL5-cTKgtg/12/636750047/png/32x32/3/1489708800/0/2/Screenshot%202017-03-16%2019.25.01.png/EOm5o5UFGKwJIAcoBw/2zJLuApgU9ujHA4gHbdnJvkq-8aud28HagayhL7nYJQ?dl=0&size=2048x1536&size_mode=3)
