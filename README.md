@@ -67,6 +67,7 @@ Think of this as a nice alternative for when speed really counts!
 to run the tests, move to the runner-benchmark folder then run the following:
 ```
 npm install
+npm i budo -g
 npm start
 ```
 
