@@ -52,7 +52,7 @@ Cons:
 - Not quite as flexible. All listeners / items in the runner must have the correct function name specified within the runners constructor.
 
 # When to use:
-In practive I have found the MiniRunner increadibly useful and so thought it would be nice to share with the world. It currently forms the backbone of the messaging system in our game engine. Its working out great for things like update events collison events etc. 
+In practice I have found the MiniRunner increadibly useful and so thought it would be nice to share with the world. It currently forms the backbone of the messaging system in our game engine. Its working out great for things like update events collison events etc. 
 
 Great to use if you are say looping through and array and calling the same function on each object. The resulting code is cleaner than a loop whilst still keeping the performance as fast as possible.
 
