@@ -73,5 +73,5 @@ npm start
 Next open you browser (http://localhost:9966). The test is run in the console.
 The test result above comes from macbook pro chrome 58.
 
-Any thoughs or comments hit me up on twitter [@doormat23](https://twitter.com/doormat23), I'd love to hear them! 
+Any thoughts or comments hit me up on twitter [@doormat23](https://twitter.com/doormat23), I'd love to hear them! 
 
