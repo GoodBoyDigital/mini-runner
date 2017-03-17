@@ -63,3 +63,15 @@ Think of this as a nice alternative for when speed really counts!
 
 # Benchmarks
 ![benchmark results](https://photos-6.dropbox.com/t/2/AAAHAFu3cvFlEYVMrklzp-yaaR8OnEZpbSDFJL5-cTKgtg/12/636750047/png/32x32/3/1489708800/0/2/Screenshot%202017-03-16%2019.25.01.png/EOm5o5UFGKwJIAcoBw/2zJLuApgU9ujHA4gHbdnJvkq-8aud28HagayhL7nYJQ?dl=0&size=2048x1536&size_mode=3)
+
+to run the tests, move to the runner-benchmark folder then run the following:
+```
+npm install
+npm start
+```
+
+Next open you browser (http://localhost:9966). The test is run in the console.
+The test result above comes from macbook pro chrome 58.
+
+Any thoughs or comments hit me up on twitter [@doormat23](https://twitter.com/doormat23), I'd love to hear them! 
+
