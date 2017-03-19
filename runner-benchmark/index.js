@@ -11,12 +11,12 @@ var updateEvent = new EventEmitter();
 
 var Listener = function(){
 
-	this.time = 0;
+	this.updates = 0;
 }
 
 Listener.prototype.update = function()
 {
-	this.time++;
+	this.updates++;
 }
 
 var listeners = [];
@@ -45,63 +45,69 @@ var runnerTime;
 
 /////// SIGNALS ///////
 
-start = performance.now();
-
 console.log('\nbenchmarking signals...');
+console.time('signals time');
+start = performance.now();
 for (var i = 0; i < cycles; i++) {
 	updateSignal.dispatch();
 }
-
 time = performance.now() - start;
-time /= 1000;
-signalTime = time;
+console.timeEnd('signals time');
 
-console.log('signals ' + signalTime);
+signalTime = time / 1000;
+
+console.log('signals performance time:', signalTime);
+console.log('listener updates:', listener.updates);
 
 /////// MINI-SIGNALS ///////
 
-start = performance.now();
-
 console.log('\nbenchmarking mini-signals...');
+console.time('mini-signals time');
+start = performance.now();
 for (var i = 0; i < cycles; i++) {
 	updateMiniSignal.dispatch();
 }
-
 time = performance.now() - start;
-time /= 1000;
-miniSignalTime = time;
+console.timeEnd('mini-signals time');
 
-console.log('mini-signals ' + miniSignalTime);
+miniSignalTime = time / 1000;
+
+console.log('mini-signals performance time:', miniSignalTime);
+console.log('listener updates:', listener.updates);
 
 /////// EVENTS ///////
 
-start = performance.now();
-
 console.log('\nbenchmarking events...');
+console.time('events time');
+start = performance.now();
 for (var i = 0; i < cycles; i++) {
 	updateEvent.emit('update');
 }
-
 time = performance.now() - start;
-time /= 1000;
-eventTime = time;
+console.timeEnd('events time');
 
-console.log('events ' + time);
+eventTime = time / 1000;
+
+console.log('events performance time:', time);
+console.log('listener updates:', listener.updates);
 
 //////// RUNNER ///////
 
 console.log('\nbenchmarking runner...');
+console.time('runner time');
 start = performance.now();
-
 for (var i = 0; i < cycles; i++) {
 	updateRunner.emit();
 }
-
 time = performance.now() - start;
-time /= 1000;
-runnerTime = time;
+console.timeEnd('runner time');
 
-console.log('runner ' + runnerTime);
+runnerTime = time / 1000;
+
+console.log('runner performance time:', runnerTime);
+console.log('listener updates:', listener.updates);
+
+/////// END ///////
 
 console.log('\nrunner is ' + (signalTime/runnerTime) + 'x faster than signals' );
 console.log('runner is ' + (miniSignalTime/runnerTime) + 'x faster than mini-signals' );

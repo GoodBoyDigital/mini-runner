@@ -1,4 +1,3 @@
-
 /**
  * A MiniRunner is a highly performant and simple alternative to signals. Best used in situations
  * where events are dispatched to many objects at high frequency (say every frame!)
@@ -38,20 +37,22 @@
  * myGame.update.emit(time);
  * ```
  *
- * @param {string} name the function name that will be executed on the listeners added to this MiniRunner.
- * @param {number} argsLength optional number of parameters that the listeners will have passed to them when MiniRunner is dispatched.
+ * @class
+ * @param {string} name - The function name that will be executed on the listeners added to this MiniRunner.
+ * @param {number} [argsLength=0] - Optional number of parameters that the listeners will have passed to them when MiniRunner is dispatched.
  */
-var MiniRunner = function(name, argsLength)
+function MiniRunner(name, argsLength)
 {
-    this.items = [];
+    this.targets = [];
+    this.priorities = [];
     this._name = name;
 
     /**
      * Dispatch/Broadcast MiniRunner to all listeners added to the queue.
      * @params {...params} params optional parameters to pass to each listener
      */
-    this.dispatch = this.emit = this.run = MiniRunner.generateRun(name, argsLength||0);
-};
+    this.dispatch = this.emit = this.run = MiniRunner.generateRun(name, argsLength || 0);
+}
 
 var p = MiniRunner.prototype;
 
@@ -70,49 +71,85 @@ var p = MiniRunner.prototype;
  *
  * The scope used will be the object itself.
  *
- * @param {Object} The object that will be listening.
+ * @param {Object} target - The object that will be listening.
+ * @param {number} [priority=0] - The priority at which the object will be added.
  */
-p.add = function(item)
+p.add = function add(target, priority)
 {
-    if(!item[this._name])return;
+    if (!target[this._name]) return;
 
-    this.remove(item);
-    this.items.push(item);
+    priority = priority || 0;
+
+    this.remove(target, priority);
+
+    var targets = this.targets.slice();
+    var priorities = this.priorities;
+    var l = targets.length;
+
+    if (l > 0)
+    {
+        var i = l;
+
+        while (i--)
+        {
+            // from end - if next has lower priority, insert now after
+            if (priorities[i] < priority)
+            {
+                targets.splice(i + 1, 0, target);
+                priorities.splice(i + 1, 0, priority);
+                break;
+            }
+            // from start - if next has equal priority, insert now before
+            else if (priorities[l - (i + 1)] === priority)
+            {
+                targets.splice(l - (i + 1), 0, target);
+                priorities.splice(l - (i + 1), 0, priority);
+                break;
+            }
+        }
+    }
+    else
+    {
+        targets.push(target);
+        priorities.push(priority);
+    }
+    this.targets = targets;
 };
 
 /**
  * Remove a single listener from the dispatch queue.
- * @param {Object} The listenr that you would like to remove.
+ * @param {Object} target - The listener target that you would like to remove.
  */
-p.remove = function(item)
+p.remove = function remove(target)
 {
-    var index = this.items.indexOf(item);
+    var index = this.targets.indexOf(target);
 
-    if(index !== -1)
+    if (index !== -1)
     {
-        this.items.splice(index, 1);
+        this.targets.splice(index, 1);
+        this.priorities.splice(index, 1);
     }
 };
 
 /**
  * Check to see if the listener is already in the MiniRunner
- * @param {Object} The listener that you would like to check.
+ * @param {Object} target - The listener target that you would like to check.
  */
-p.contains = function(item)
+p.contains = function contains(target)
 {
-    return this.items.indexOf(item) !== -1;
+    return this.targets.indexOf(target) !== -1;
 };
 
 /**
  * Remove all listeners from the MiniRunner
  */
-p.removeAll = function()
+p.removeAll = function removeAll()
 {
-    this.items.length = 0;
+    this.targets.length = this.priorities.length = 0;
 };
 
 /**
- * true if there are no this MiniRunner contains no listeners
+ * True if there are no this MiniRunner contains no listeners
  *
  * @member {boolean}
  * @readonly
@@ -120,11 +157,11 @@ p.removeAll = function()
 Object.defineProperty(p, 'empty', {
     get: function()
     {
-        return this.items.length === 0;
+        return this.targets.length === 0;
     }
 });
 
-MiniRunner.generateRun = function(name, argsLength)
+MiniRunner.generateRun = function generateRun(name, argsLength)
 {
     var key = name + '|' + argsLength;
 
@@ -142,12 +179,12 @@ MiniRunner.generateRun = function(name, argsLength)
             }
 
             /*jslint evil: true */
-            func = new Function(args,  'var items = this.items; for(var i=0;i<items.length;i++){ items[i].'+name+'('+args+'); }');
+            func = new Function(args, 'var targets = this.targets, i = targets.length; while(i--) targets[i].'+name+'('+args+');');
         }
         else
         {
             /*jslint evil: true */
-            func = new Function('var items = this.items; for(var i=0;i<items.length;i++){ items[i].'+name+'(); }');
+            func = new Function('var targets = this.targets, i = targets.length; while(i--) targets[i].'+name+'();');
         }
 
         MiniRunner.hash[key] = func;
