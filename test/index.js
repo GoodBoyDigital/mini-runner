@@ -13,6 +13,7 @@ describe('MiniRunner', function()
     it('should implement emit', function()
     {
         var complete = new MiniRunner('complete');
+        assert.equal(complete.name, 'complete', 'validate name');
         var callback = sinon.spy();
         complete.add({ complete: callback });
         complete.emit();
@@ -22,6 +23,9 @@ describe('MiniRunner', function()
         assert(callback.calledTwice, 'called twice');
         complete.emit();
         assert(callback.calledThrice, 'called thrice');
+        complete.destroy();
+        assert(!complete.items, 'no items left');
+        assert(!complete.name, 'no name left');
     });
 
     it('should implement emit with arguments', function()
