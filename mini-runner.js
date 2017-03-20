@@ -39,21 +39,45 @@
  * ```
  *
  * @param {string} name the function name that will be executed on the listeners added to this MiniRunner.
- * @param {number} argsLength optional number of parameters that the listeners will have passed to them when MiniRunner is dispatched.
  */
-var MiniRunner = function(name, argsLength)
+var MiniRunner = function(name)
 {
     this.items = [];
     this._name = name;
-
-    /**
-     * Dispatch/Broadcast MiniRunner to all listeners added to the queue.
-     * @params {...params} params optional parameters to pass to each listener
-     */
-    this.dispatch = this.emit = this.run = MiniRunner.generateRun(name, argsLength||0);
 };
 
 var p = MiniRunner.prototype;
+
+/**
+ * Dispatch/Broadcast MiniRunner to all listeners added to the queue.
+ * @params {...params} params optional parameters to pass to each listener
+ */
+p.emit = function(a0, a1, a2, a3, a4, a5, a6, a7)
+{
+    if (arguments.length > 8)
+    {
+        throw 'max arguments reached';
+    }
+
+    var items = this.items;
+    var name = this._name;
+
+    for (var i = 0, len = items.length; i < len; i++)
+    {
+        items[i][name](a0, a1, a2, a3, a4, a5, a6, a7);
+    }
+    return this;
+};
+
+/**
+ * Alias for `emit`
+ */
+p.dispatch = p.emit;
+
+/**
+ * Alias for `emit`
+ */
+p.run = p.emit;
 
 /**
  * Add a listener to the MiniRunner
@@ -74,10 +98,12 @@ var p = MiniRunner.prototype;
  */
 p.add = function(item)
 {
-    if(!item[this._name])return;
-
-    this.remove(item);
-    this.items.push(item);
+    if (item[this._name])
+    {
+        this.remove(item);
+        this.items.push(item);
+    }
+    return this;
 };
 
 /**
@@ -88,10 +114,11 @@ p.remove = function(item)
 {
     var index = this.items.indexOf(item);
 
-    if(index !== -1)
+    if (index !== -1)
     {
         this.items.splice(index, 1);
     }
+    return this;
 };
 
 /**
@@ -109,54 +136,45 @@ p.contains = function(item)
 p.removeAll = function()
 {
     this.items.length = 0;
+    return this;
 };
 
 /**
- * true if there are no this MiniRunner contains no listeners
- *
- * @member {boolean}
- * @readonly
+ * Remove all references, don't use after this.
  */
-Object.defineProperty(p, 'empty', {
-    get: function()
-    {
-        return this.items.length === 0;
-    }
-});
-
-MiniRunner.generateRun = function(name, argsLength)
+p.destroy = function()
 {
-    var key = name + '|' + argsLength;
-
-    var func = MiniRunner.hash[key];
-
-    if(!func)
-    {
-        if(argsLength > 0)
-        {
-            var args = 'arg0';
-
-            for(var i = 1; i < argsLength; i++)
-            {
-                args += ',arg'+i;
-            }
-
-            /*jslint evil: true */
-            func = new Function(args,  'var items = this.items; for(var i=0;i<items.length;i++){ items[i].'+name+'('+args+'); }');
-        }
-        else
-        {
-            /*jslint evil: true */
-            func = new Function('var items = this.items; for(var i=0;i<items.length;i++){ items[i].'+name+'(); }');
-        }
-
-        MiniRunner.hash[key] = func;
-    }
-
-    return func;
+    this.removeAll();
+    this.items = null;
+    this._name = null;
 };
 
+Object.defineProperties(p, {
+    /**
+     * `true` if there are no this MiniRunner contains no listeners
+     *
+     * @member {boolean}
+     * @readonly
+     */
+    empty: {
+        get: function()
+        {
+            return this.items.length === 0;
+        }
+    },
 
-MiniRunner.hash = {};
+    /**
+     * The name of the runner.
+     *
+     * @member {string}
+     * @readonly
+     */
+     name: {
+        get: function()
+        {
+            return this._name;
+        }
+     }
+});
 
 module.exports = MiniRunner;

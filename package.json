@@ -4,9 +4,12 @@
   "description": "A simple alternative to events and signals with an emphasis on performance.",
   "main": "mini-runner.min.js",
   "scripts": {
-    "test": "jshint --reporter=node_modules/jshint-stylish mini-runner.js",
+    "lint": "jshint --reporter=node_modules/jshint-stylish mini-runner.js test/*.js benchmark/*.js",
+    "pretest": "npm run lint",
+    "test": "mocha test",
     "prepublish": "npm test && npm run build",
-    "build": "uglifyjs -cm -o mini-runner.min.js mini-runner.js"
+    "build": "uglifyjs -cm -o mini-runner.min.js mini-runner.js",
+    "benchmark": "cd benchmark && npm start"
   },
   "files": [
     "README.md",
@@ -39,6 +42,8 @@
   "devDependencies": {
     "jshint": "^2.9.4",
     "jshint-stylish": "^2.2.1",
+    "mocha": "^3.2.0",
+    "sinon": "^2.1.0",
     "uglify-js": "^2.8.13"
   }
 }

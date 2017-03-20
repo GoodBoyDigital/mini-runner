@@ -12,18 +12,18 @@ var updateEvent = new EventEmitter();
 var Listener = function(){
 
 	this.time = 0;
-}
+};
 
 Listener.prototype.update = function()
 {
 	this.time++;
-}
+};
 
 var listeners = [];
 
 for (var i = 0; i < 10000; i++) {
 
-	var listener = new Listener;
+	var listener = new Listener();
 
 	updateRunner.add(listener);
 	updateSignal.add(listener.update, listener);
@@ -34,9 +34,9 @@ for (var i = 0; i < 10000; i++) {
 }
 
 
-var start
-var time
-var cycles = 2000
+var start;
+var time;
+var cycles = 2000;
 
 var signalTime;
 var miniSignalTime;

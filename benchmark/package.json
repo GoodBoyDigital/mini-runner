@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "scripts": {
+    "start": "npm install && budo ."
+  },
+  "devDependencies": {
+    "benchmark": "^2.1.3",
+    "budo": "^9.4.7",
+    "eventemitter3": "^2.0.2",
+    "mini-signals": "^1.1.1",
+    "signals": "^1.0.0"
+  }
+}
