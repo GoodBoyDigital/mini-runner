@@ -105,7 +105,9 @@ console.log('runner ' + runnerTime);
 console.log('\n');
 function log(msg) {
 	console.log(msg);
+	/* jshint ignore:start */
 	document.write('<pre>' + msg + '</pre>');
+	/* jshint ignore:end */
 }
 log('mini-runner is ' + (signalTime/runnerTime) + 'x faster than signals');
 log('mini-runner is ' + (miniSignalTime/runnerTime) + 'x faster than mini-signals');
