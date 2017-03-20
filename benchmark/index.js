@@ -102,7 +102,11 @@ time /= 1000;
 runnerTime = time;
 
 console.log('runner ' + runnerTime);
-
-console.log('\nrunner is ' + (signalTime/runnerTime) + 'x faster than signals' );
-console.log('runner is ' + (miniSignalTime/runnerTime) + 'x faster than mini-signals' );
-console.log('runner is ' + (eventTime/runnerTime) + 'x faster than events' );
+console.log('\n');
+function log(msg) {
+	console.log(msg);
+	document.write('<pre>' + msg + '</pre>');
+}
+log('mini-runner is ' + (signalTime/runnerTime) + 'x faster than signals');
+log('mini-runner is ' + (miniSignalTime/runnerTime) + 'x faster than mini-signals');
+log('mini-runner is ' + (eventTime/runnerTime) + 'x faster than events');
