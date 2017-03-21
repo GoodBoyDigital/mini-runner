@@ -12,18 +12,18 @@ var updateEvent = new EventEmitter();
 var Listener = function(){
 
 	this.time = 0;
-}
+};
 
 Listener.prototype.update = function()
 {
 	this.time++;
-}
+};
 
 var listeners = [];
 
 for (var i = 0; i < 10000; i++) {
 
-	var listener = new Listener;
+	var listener = new Listener();
 
 	updateRunner.add(listener);
 	updateSignal.add(listener.update, listener);
@@ -34,9 +34,9 @@ for (var i = 0; i < 10000; i++) {
 }
 
 
-var start
-var time
-var cycles = 2000
+var start;
+var time;
+var cycles = 2000;
 
 var signalTime;
 var miniSignalTime;
@@ -102,7 +102,13 @@ time /= 1000;
 runnerTime = time;
 
 console.log('runner ' + runnerTime);
-
-console.log('\nrunner is ' + (signalTime/runnerTime) + 'x faster than signals' );
-console.log('runner is ' + (miniSignalTime/runnerTime) + 'x faster than mini-signals' );
-console.log('runner is ' + (eventTime/runnerTime) + 'x faster than events' );
+console.log('\n');
+function log(msg) {
+	console.log(msg);
+	/* jshint ignore:start */
+	document.write('<pre>' + msg + '</pre>');
+	/* jshint ignore:end */
+}
+log('mini-runner is ' + (signalTime/runnerTime) + 'x faster than signals');
+log('mini-runner is ' + (miniSignalTime/runnerTime) + 'x faster than mini-signals');
+log('mini-runner is ' + (eventTime/runnerTime) + 'x faster than events');
