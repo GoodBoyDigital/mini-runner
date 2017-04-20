@@ -5,110 +5,107 @@ var MiniSignal = require('mini-signals');
 var EventEmitter = require('EventEmitter3');
 
 var updateRunner = new Runner('update');
+var updateRunnerAdhoc = new Runner('update');
 var updateSignal = new Signal();
 var updateMiniSignal = new MiniSignal();
 var updateEvent = new EventEmitter();
 
-var Listener = function(){
+var numListeners = 10;
+var numCycles = 2000;
+var numRuns = 100;
+var timings = {};
 
-	this.time = 0;
-};
-
-Listener.prototype.update = function()
+var Listener = function ()
 {
-	this.time++;
+    this.time = 0;
 };
 
-var listeners = [];
+Listener.prototype.update = function ()
+{
+    this.time++;
+};
 
-for (var i = 0; i < 10000; i++) {
+for (var i = 0; i < numListeners; i++) {
 
-	var listener = new Listener();
+    var listener = new Listener();
 
-	updateRunner.add(listener);
-	updateSignal.add(listener.update, listener);
-	updateMiniSignal.add(listener.update, listener);
-	updateEvent.on('update', listener.update, listener);
-
-	listeners.push(listener);
+    updateRunner.add(listener);
+    updateRunnerAdhoc.add({ time: 0, update: Listener.prototype.update });
+    updateSignal.add(listener.update, listener);
+    updateMiniSignal.add(listener.update, listener);
+    updateEvent.on('update', listener.update, listener);
 }
 
+// bench helper
+function doBench(name, fn) {
+    timings[name] = {
+        runs: [],
+        total: 0,
+        avg: 0,
+    };
 
-var start;
-var time;
-var cycles = 2000;
+    console.log('\nbenchmarking ' + name + '...');
 
-var signalTime;
-var miniSignalTime;
-var eventTime;
-var runnerTime;
+    for (var r = 0; r < numRuns; ++r) {
+        var start = performance.now();
+
+        for (var i = 0; i < numCycles; i++) {
+            fn();
+        }
+
+        time = performance.now() - start;
+        time /= 1000;
+        timings[name].runs.push(time);
+        timings[name].total += time;
+    }
+
+    timings[name].avg = timings[name].total / numRuns;
+
+    console.log(name + ': ' + timings[name].avg);
+}
+
+log('Number of listeners: ' + numListeners);
+log('Number of runs each: ' + numRuns);
+log('Number of cycles per run: ' + numCycles);
 
 /////// SIGNALS ///////
-
-start = performance.now();
-
-console.log('\nbenchmarking signals...');
-for (var i = 0; i < cycles; i++) {
-	updateSignal.dispatch();
-}
-
-time = performance.now() - start;
-time /= 1000;
-signalTime = time;
-
-console.log('signals ' + signalTime);
+doBench('signals', function () {
+    updateSignal.dispatch();
+});
 
 /////// MINI-SIGNALS ///////
-
-start = performance.now();
-
-console.log('\nbenchmarking mini-signals...');
-for (var i = 0; i < cycles; i++) {
-	updateMiniSignal.dispatch();
-}
-
-time = performance.now() - start;
-time /= 1000;
-miniSignalTime = time;
-
-console.log('mini-signals ' + miniSignalTime);
+doBench('miniSignals', function () {
+    updateMiniSignal.dispatch();
+});
 
 /////// EVENTS ///////
-
-start = performance.now();
-
-console.log('\nbenchmarking events...');
-for (var i = 0; i < cycles; i++) {
-	updateEvent.emit('update');
-}
-
-time = performance.now() - start;
-time /= 1000;
-eventTime = time;
-
-console.log('events ' + time);
+doBench('events', function () {
+    updateEvent.emit('update');
+});
 
 //////// RUNNER ///////
+doBench('runner', function () {
+    updateRunner.emit();
+});
 
-console.log('\nbenchmarking runner...');
-start = performance.now();
+//////// RUNNER ADHOC ///////
+doBench('runnerAdHoc', function () {
+    updateRunnerAdhoc.emit();
+});
 
-for (var i = 0; i < cycles; i++) {
-	updateRunner.emit();
-}
-
-time = performance.now() - start;
-time /= 1000;
-runnerTime = time;
-
-console.log('runner ' + runnerTime);
+//////// RESULTS ///////
 console.log('\n');
 function log(msg) {
-	console.log(msg);
-	/* jshint ignore:start */
-	document.write('<pre>' + msg + '</pre>');
-	/* jshint ignore:end */
+    console.log(msg);
+    /* jshint ignore:start */
+    document.write('<pre>' + msg + '</pre>');
+    /* jshint ignore:end */
 }
-log('mini-runner is ' + (signalTime/runnerTime) + 'x faster than signals');
-log('mini-runner is ' + (miniSignalTime/runnerTime) + 'x faster than mini-signals');
-log('mini-runner is ' + (eventTime/runnerTime) + 'x faster than events');
+
+log('mini-runner is ' + (timings.signals.avg/timings.runner.avg) + 'x faster than signals');
+log('mini-runner is ' + (timings.miniSignals.avg/timings.runner.avg) + 'x faster than mini-signals');
+log('mini-runner is ' + (timings.events.avg/timings.runner.avg) + 'x faster than events');
+log('\n');
+log('mini-runner (adhoc) is ' + (timings.signals.avg/timings.runnerAdHoc.avg) + 'x faster than signals');
+log('mini-runner (adhoc) is ' + (timings.miniSignals.avg/timings.runnerAdHoc.avg) + 'x faster than mini-signals');
+log('mini-runner (adhoc) is ' + (timings.events.avg/timings.runnerAdHoc.avg) + 'x faster than events');
